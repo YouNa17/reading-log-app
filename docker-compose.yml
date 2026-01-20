@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./backend
+    container_name: fastapi_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: teamC_books-db
+    environment:
+      POSTGRES_DB: books_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,16 @@
+FROM python:3.12
+
+WORKDIR /app
+
+# 先に依存関係をコピーしてキャッシュを利用
+COPY app/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# コードをコピー
+COPY . .
+
+# Prisma クライアントの生成
+# RUN prisma generate
+
+# FastAPIの起動
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
