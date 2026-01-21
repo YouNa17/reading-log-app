@@ -57,3 +57,25 @@ def update_book(
     db.refresh(db_book)
 
     return db_book
+
+# bookの削除
+def delete_book(
+    db: Session,
+    book_id: int,
+    user_id: int,
+):
+    # 削除対象を取得
+    db_book = (
+        db.query(Book)
+        .filter(Book.id == book_id, Book.user_id == user_id)
+        .first()
+    )
+
+    if not db_book:
+        return None
+
+    # 削除
+    db.delete(db_book)
+    db.commit()
+
+    return db_book
