@@ -11,7 +11,12 @@ from datetime import date
 class BookCreate(BaseModel):
     target_date: date
     title: str
-    
+
+# PUT/books用の型
+class BookUpdate(BaseModel):
+    target_date: date
+    title: str
+
 # APIがフロントに返すデータの型（レスポンス用）
 class BookOut(BaseModel):
     id: int

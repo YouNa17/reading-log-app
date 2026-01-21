@@ -2,12 +2,12 @@
 # HTTPリクエスト（URL）と、内部処理（CRUD）を繋ぐ窓口
 # --------------------
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..crud import books as crud_books
-from ..schemas.books import BookCreate,BookOut
+from ..schemas.books import BookCreate,BookUpdate,BookOut
 
 # /books => このrouterに書いたAPIは全部/books配下になる
 # tags => Swaggerでグルーピングするため
@@ -31,3 +31,21 @@ def create_book(
 ):
     user_id = 1  # 仮（あとで Firebase）
     return crud_books.create_book(db, user_id, book)
+
+# PUT / book
+@router.put("/{book_id}", response_model=BookOut)
+def update_book(
+    book_id: int,
+    book: BookUpdate,
+    db: Session = Depends(get_db)
+):
+    user_id = 1  # 仮（あとでFirebase）
+
+    updated_book = crud_books.update_book(
+        db, book_id, user_id, book
+    )
+
+    if updated_book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    return updated_book

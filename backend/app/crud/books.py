@@ -4,7 +4,7 @@
 
 from sqlalchemy.orm import Session
 from ..models import Book
-from ..schemas.books import BookCreate
+from ..schemas.books import BookCreate, BookUpdate
 
 # DBからbooksを取得
 def get_books(db: Session, user_id: int):
@@ -15,6 +15,7 @@ def get_books(db: Session, user_id: int):
         .all()
     )
 
+# DBにbookを新規登録
 def create_book(db: Session, user_id: int, book: BookCreate):
     # Pythonオブジェクトを作る
     db_book = Book(
@@ -29,4 +30,30 @@ def create_book(db: Session, user_id: int, book: BookCreate):
     # DBで採番されたidを取得
     db.refresh(db_book)
     # 追加された一件を返す
+    return db_book
+
+# bookの更新
+def update_book(
+    db: Session,
+    book_id: int,
+    user_id: int,
+    book: BookUpdate
+):
+    # 既存の更新対象の本を取得
+    db_book = (
+        db.query(Book)
+        .filter(Book.id == book_id, Book.user_id == user_id)
+        .first()
+    )
+
+    if not db_book:
+        return None
+
+    # 更新
+    db_book.title = book.title
+    db_book.target_date = book.target_date
+
+    db.commit()
+    db.refresh(db_book)
+
     return db_book
