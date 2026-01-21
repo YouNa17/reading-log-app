@@ -6,10 +6,11 @@ services:
     container_name: fastapi_api
     ports:
       - "8000:8000"
+     # volumes 開発用
     volumes:
       - ./backend:/app
     environment:
-      - DATABASE_URL=postgresql://user:pass@db:5432/db
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
 
