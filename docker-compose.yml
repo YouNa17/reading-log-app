@@ -22,6 +22,7 @@ services:
       POSTGRES_PASSWORD: app_password
     ports:
       - "5432:5432"
+      # データの永続化
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
