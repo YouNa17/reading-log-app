@@ -19,7 +19,7 @@ router = APIRouter(
 # GET / books
 @router.get("/", response_model=list[BookOut])
 def read_books(db: Session = Depends(get_db)):
-    user_id = 1  # 仮（あとで Firebase）=> Firebase ID Tokenをuser_idに変換
+    user_id = 1  # FIXME:仮（あとで Firebase）=> Firebase ID Tokenをuser_idに変換
     # CRUDに投げる
     return crud_books.get_books(db, user_id)
 
@@ -29,7 +29,7 @@ def create_book(
     book: BookCreate,
     db: Session = Depends(get_db)
 ):
-    user_id = 1  # 仮（あとで Firebase）
+    user_id = 1  # FIXME:仮（あとで Firebase）
     return crud_books.create_book(db, user_id, book)
 
 # PUT / books/{id}
@@ -39,7 +39,7 @@ def update_book(
     book: BookUpdate,
     db: Session = Depends(get_db)
 ):
-    user_id = 1  # 仮（あとでFirebase）
+    user_id = 1  # FIXME:仮（あとでFirebase）
 
     updated_book = crud_books.update_book(
         db, book_id, user_id, book
@@ -56,7 +56,7 @@ def delete_book(
     book_id: int,
     db: Session = Depends(get_db)
 ):
-    user_id = 1
+    user_id = 1 # FIXME:仮（あとでFirebase）
 
     deleted_book = crud_books.delete_book(db, book_id, user_id)
 
