@@ -4,9 +4,14 @@
 
 from fastapi import FastAPI
 from .routers import books
+from .database import engine, Base
+from . import models
 
 # FastAPIのアプリを作る
 app = FastAPI()
+
+# アプリ起動時にテーブルがなければ作る処理 => いずれAlembic
+Base.metadata.create_all(bind=engine)
 
 # サーバーが問題なく起動しているかの確認
 @app.get("/")
