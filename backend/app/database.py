@@ -1,3 +1,8 @@
+# ----------------
+# DBに接続するための共通インフラ
+# DB接続＋セッション管理＋FastAPI用の橋渡し
+# ----------------
+
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
