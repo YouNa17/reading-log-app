@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./backend
+    container_name: fastapi_api
+    ports:
+      - "8000:8000"
+     # volumes 開発用
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: teamC_books-db
+    environment:
+      POSTGRES_DB: books_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+    ports:
+      - "5432:5432"
+      # データの永続化
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

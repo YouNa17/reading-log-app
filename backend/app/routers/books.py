@@ -1,0 +1,66 @@
+# --------------------
+# HTTPリクエスト（URL）と、内部処理（CRUD）を繋ぐ窓口
+# --------------------
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
+from ..database import get_db
+from ..crud import books as crud_books
+from ..schemas.books import BookCreate,BookUpdate,BookOut
+
+# /books => このrouterに書いたAPIは全部/books配下になる
+# tags => Swaggerでグルーピングするため
+router = APIRouter(
+    prefix="/books",
+    tags=["books"]
+)
+
+# GET / books
+@router.get("/", response_model=list[BookOut])
+def read_books(db: Session = Depends(get_db)):
+    user_id = 1  # FIXME:仮（あとで Firebase）=> Firebase ID Tokenをuser_idに変換
+    # CRUDに投げる
+    return crud_books.get_books(db, user_id)
+
+# POST / books
+@router.post("/", response_model=BookOut)
+def create_book(
+    book: BookCreate,
+    db: Session = Depends(get_db)
+):
+    user_id = 1  # FIXME:仮（あとで Firebase）
+    return crud_books.create_book(db, user_id, book)
+
+# PUT / books/{id}
+@router.put("/{book_id}", response_model=BookOut)
+def update_book(
+    book_id: int,
+    book: BookUpdate,
+    db: Session = Depends(get_db)
+):
+    user_id = 1  # FIXME:仮（あとでFirebase）
+
+    updated_book = crud_books.update_book(
+        db, book_id, user_id, book
+    )
+
+    if updated_book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    return updated_book
+
+# DELETE /books/{id}
+@router.delete("/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_book(
+    book_id: int,
+    db: Session = Depends(get_db)
+):
+    user_id = 1 # FIXME:仮（あとでFirebase）
+
+    deleted_book = crud_books.delete_book(db, book_id, user_id)
+
+    if deleted_book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    return
