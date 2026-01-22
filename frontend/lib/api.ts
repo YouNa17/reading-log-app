@@ -1,19 +1,27 @@
+//API関数ファイル
+
 import { auth } from './firebase';
-import { Book, BookFormData, GetBooksResponse, ApiResponse } from '@/types/book';
+import { Book, BookFormData, GetBooksResponse, ApiResponse } from '@/src/types/book';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-// 認証トークンを取得
+// 認証トークンを取得する関数
+//一時的に置き換え
 async function getAuthToken(): Promise<string> {
-    const currentUser = auth.currentUser;
-
-    if (!currentUser) {
-        throw new Error('ログインしていません');
-    }
-
-    const token = await currentUser.getIdToken();
-    return token;
+    // 一時的にダミートークンを返す
+    return 'dummy-token';
 }
+
+// async function getAuthToken(): Promise<string> {
+//     const currentUser = auth.currentUser;
+
+//     if (!currentUser) {
+//         throw new Error('ログインしていません');
+//     }
+
+//     const token = await currentUser.getIdToken();
+//     return token;
+// }
 
 // 共通fetch関数
 async function fetchWithAuth(

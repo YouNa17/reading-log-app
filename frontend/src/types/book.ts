@@ -1,3 +1,4 @@
+//型定義
 //データベースから取得するデータの型
 export interface Book {
     id: number;

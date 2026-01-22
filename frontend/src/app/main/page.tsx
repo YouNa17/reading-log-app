@@ -1,9 +1,10 @@
+//メインページ
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
-import { Book, BookFormData } from '@/types/book';
+import { Book, BookFormData } from '@/src/types/book';
 import {
     getBooks,
     createBook,
@@ -35,16 +36,21 @@ export default function MainPage() {
 
     // 認証チェック & 初回データ取得
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (!user) {
-                router.push('/');
-            } else {
-                loadBooks();
-            }
-        });
+        loadBooks();
+    }, []);
 
-        return () => unsubscribe();
-    }, [router]);
+    //一時的に無効化　のちほど↑を消してこれを生かす
+    // useEffect(() => {
+    //     const unsubscribe = auth.onAuthStateChanged((user) => {
+    //         if (!user) {
+    //             router.push('/');
+    //         } else {
+    //             loadBooks();
+    //         }
+    //     });
+
+    //     return () => unsubscribe();
+    // }, [router]);
 
     // 本の一覧を取得
     const loadBooks = async () => {
@@ -192,7 +198,7 @@ export default function MainPage() {
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <div className="grid grid-cols-2 gap-6 lg:gap-8">
                     {/* 左側：一覧 */}
                     <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
                         <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700">
