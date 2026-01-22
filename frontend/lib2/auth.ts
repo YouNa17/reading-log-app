@@ -1,11 +1,12 @@
-import {  auth } from "./firebase";
+import { auth } from "./firebase";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
+
   signOut,
-  onAuthStateChanged
-  type User
+  onAuthStateChanged,
+  type User,
 } from 'firebase/auth';
 
 
@@ -23,10 +24,18 @@ export async function loginWithGoogle() {
 }
 
 // ログアウト
-export const logout = () => signOut(auth);
-
+export const logout =  async() => {
+    await signOut(auth);
+};
 
 // ログイン状態を監視（必要になったら使う）
 export function subscribeAuth(callback: (user: User | null) => void) {
   return onAuthStateChanged(auth, callback);
 }
+
+//IDトークンを取得する
+export const getIdToken = async (): Promise<string> => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("Not logged in");
+  return await user.getIdToken();
+};

@@ -48,46 +48,46 @@ const authFetch = async <T>(
   return (await res.json()) as T;
 };
 
-/**
- * ========== ここからアプリ固有 ==========
- * 「読みたい本管理アプリ」想定
- * バックエンドのAPIが /books を持っている想定
- */
+// /**
+//  * ========== ここからアプリ固有 ==========
+//  * 「読みたい本管理アプリ」想定
+//  * バックエンドのAPIが /books を持っている想定
+//  */
 
-export type Book = {
-  id: number;
-  title: string;
-  date?: string; // あるなら
-};
+// export type Book = {
+//   id: number;
+//   title: string;
+//   date?: string; // あるなら
+// };
 
-/** ✅ 本一覧取得 */
-export const fetchBooks = async (): Promise<Book[]> => {
-  return authFetch<Book[]>("/books", { method: "GET" });
-};
+// /** ✅ 本一覧取得 */
+// export const fetchBooks = async (): Promise<Book[]> => {
+//   return authFetch<Book[]>("/books", { method: "GET" });
+// };
 
-/** ✅ 本を登録 */
-export const createBook = async (payload: {
-  title: string;
-  date?: string;
-}): Promise<Book> => {
-  return authFetch<Book>("/books", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-};
+// /** ✅ 本を登録 */
+// export const createBook = async (payload: {
+//   title: string;
+//   date?: string;
+// }): Promise<Book> => {
+//   return authFetch<Book>("/books", {
+//     method: "POST",
+//     body: JSON.stringify(payload),
+//   });
+// };
 
-/** ✅ 本を更新（編集） */
-export const updateBook = async (
-  id: number,
-  payload: { title?: string; date?: string }
-): Promise<Book> => {
-  return authFetch<Book>(`/books/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(payload),
-  });
-};
+// /** ✅ 本を更新（編集） */
+// export const updateBook = async (
+//   id: number,
+//   payload: { title?: string; date?: string }
+// ): Promise<Book> => {
+//   return authFetch<Book>(`/books/${id}`, {
+//     method: "PUT",
+//     body: JSON.stringify(payload),
+//   });
+// };
 
-/** ✅ 本を削除 */
-export const deleteBook = async (id: number): Promise<void> => {
-  await authFetch<void>(`/books/${id}`, { method: "DELETE" });
-};
+// /** ✅ 本を削除 */
+// export const deleteBook = async (id: number): Promise<void> => {
+//   await authFetch<void>(`/books/${id}`, { method: "DELETE" });
+// };
