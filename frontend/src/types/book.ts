@@ -15,11 +15,6 @@ export interface BookFormData {
     target_date: string;
 }
 
-// GETのレスポンス型
-export interface GetBooksResponse {
-    books: Book[];
-}
-
 // APIレスポンス型
 export interface ApiResponse<T> {
     data?: T; //成功時のデータ

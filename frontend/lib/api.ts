@@ -1,7 +1,7 @@
 //API関数ファイル
 
 import { auth } from './firebase';
-import { Book, BookFormData, GetBooksResponse, ApiResponse } from '@/src/types/book';
+import { Book, BookFormData, ApiResponse } from '@/src/types/book';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -59,12 +59,12 @@ async function fetchWithAuth(
 // 本の一覧取得
 export async function getBooks(): Promise<ApiResponse<Book[]>> {
     try {
-        const response = await fetchWithAuth('/api/books', {
+        const response = await fetchWithAuth('/books/', {
             method: 'GET',
         });
 
-        const data: GetBooksResponse = await response.json();
-        return { data: data.books };
+        const data: Book[] = await response.json();
+        return { data };
     } catch (error) {
         console.error('Failed to fetch books:', error);
         return {
@@ -78,7 +78,7 @@ export async function createBook(
     bookData: BookFormData
 ): Promise<ApiResponse<Book>> {
     try {
-        const response = await fetchWithAuth('/api/books', {
+        const response = await fetchWithAuth('/books/', {
             method: 'POST',
             body: JSON.stringify(bookData),
         });
@@ -99,7 +99,7 @@ export async function updateBook(
     bookData: BookFormData
 ): Promise<ApiResponse<Book>> {
     try {
-        const response = await fetchWithAuth(`/api/books/${id}`, {
+        const response = await fetchWithAuth(`/books/${id}/`, {
             method: 'PUT',
             body: JSON.stringify(bookData),
         });
@@ -117,7 +117,7 @@ export async function updateBook(
 // 本の削除
 export async function deleteBook(id: number): Promise<ApiResponse<void>> {
     try {
-        await fetchWithAuth(`/api/books/${id}`, {
+        await fetchWithAuth(`/books/${id}/`, {
             method: 'DELETE',
         });
 
