@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { login, loginWithGoogle } from "../lib/auth";
+import { login, loginWithGoogle } from "../../../lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function LoginPage() {
 
     try {
       await login(email, password);
-      router.push("/"); // ✅ ログイン成功したら遷移
+      router.push("/main"); // ✅ ログイン成功したら遷移
     } catch (err: any) {
       setError(friendlyError(err));
     } finally {
@@ -47,7 +47,7 @@ export default function LoginPage() {
 
     try {
       await loginWithGoogle();
-      router.push("/"); // ✅ ログイン成功したら遷移
+      router.push("/main"); // ✅ ログイン成功したら遷移
     } catch (err: any) {
       setError(friendlyError(err));
     } finally {
